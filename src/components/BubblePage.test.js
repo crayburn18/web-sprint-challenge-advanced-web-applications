@@ -1,11 +1,21 @@
-import React from 'react';
-import { render, screen} from "@testing-library/react";
-import BubblePage from './BubblePage';
+import React from "react";
+import { queryAllByTestId, render, screen, waitFor } from "@testing-library/react";
+import BubblePage from "./BubblePage";
+import Bubbles from "./Bubbles";
+import {colors} from "../mocks/handlers";
 
-test("Renders without errors", ()=> {
-    
+// const fetchColors = async ()=>{
+//   const colors = await axios.get("http://localhost:5000/api/colors");
+//   return colors;
+// }
+// jest.mock(fetchColors());
+
+test("Renders BubblePage without errors", () => {
+  // Finish this test
+  render(<BubblePage/>);
 });
 
-test("Renders appropriate number of colors passed in through mock", async ()=> {
-    //Keep in mind that our service is called on mount for this component.
+test("Fetches data and renders the bubbles on mounting", async () => {
+  
+
 });

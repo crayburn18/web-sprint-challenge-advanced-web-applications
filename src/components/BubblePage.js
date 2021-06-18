@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { axiosWithAuth } from "../helpers/axiosWithAuth";
 
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 
-import { editColorService, deleteColorService } from '../services/colorServices';
-import fetchColorService from '../services/fetchColorService';
-
 const BubblePage = () => {
-  const [colors, setColors] = useState([]);
-  const [editing, setEditing] = useState(false);
-
-  const toggleEdit = (value) => {
-    setEditing(value);
-  };
-
-  const saveEdit = (editColor) => {
-  };
-
-  const deleteColor = (colorToDelete) => {
-  };
+  const [colorList, setColorList] = useState([]);
+  
+  useEffect(()=>{
+    axiosWithAuth().get("/colors")
+    .then(res=>{
+      setColorList(res.data);
+    })
+    .catch(error=>{
+      console.log("Get data with token failed: Maybe the token is missing");
+    })
+  },[])
 
   return (
     <div className="container">
-      <ColorList colors={colors} editing={editing} toggleEdit={toggleEdit} saveEdit={saveEdit} deleteColor={deleteColor}/>
-      <Bubbles colors={colors}/>
+      
+      <ColorList colors={colorList} updateColors={setColorList} />
+      <Bubbles colors={colorList} /> 
     </div>
   );
 };
