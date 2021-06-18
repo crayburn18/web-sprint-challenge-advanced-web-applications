@@ -1,21 +1,30 @@
-import React from "react";
-import { queryAllByTestId, render, screen, waitFor } from "@testing-library/react";
-import BubblePage from "./BubblePage";
-import Bubbles from "./Bubbles";
-import {colors} from "../mocks/handlers";
+import React from 'react';
+import { render, screen, wait, waitFor} from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
+import BubblePage from './BubblePage';
 
-// const fetchColors = async ()=>{
-//   const colors = await axios.get("http://localhost:5000/api/colors");
-//   return colors;
-// }
-// jest.mock(fetchColors());
+import fetchColorServices from '../services/fetchColorService';
+jest.mock('../services/fetchColorService');
 
-test("Renders BubblePage without errors", () => {
-  // Finish this test
-  render(<BubblePage/>);
+const testColor = {
+    color: "blue",
+    code: {hex: "#7fffd4"},
+    id: 1
+}
+
+test("Renders without errors", ()=> {
+    render(<BubblePage />)
 });
 
-test("Fetches data and renders the bubbles on mounting", async () => {
-  
+test("Renders appropriate number of colors passed in through mock", async ()=> {
+    //Keep in mind that our service is called on mount for this component.
 
+    fetchColorServices.mockResolvedValueOnce(testColor);
+
+    render(<BubblePage />);
+    const colors = screen.getAllByTestId("color");
+
+    await waitFor(() => {
+    expect(colors).toHaveLength(1);
+    })
 });
